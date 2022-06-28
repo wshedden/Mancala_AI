@@ -1,5 +1,4 @@
-public class Board { //<>// //<>//
-
+public class Board { //<>//
   // display variables
   public float xSpace = 30f;
   public float ySpace = 2f;
@@ -48,13 +47,17 @@ public class Board { //<>// //<>//
       p1Pots[i].display();
       p2Pots[i].display();
     }
+    //println(turn, state);
   }
 
   public boolean move(Player player, int move) {
     if (player != turn) return false;
     if (move < 0 || move > 5) return false;
-    println("MOVING");
-    println(player);
+    if(hasNoStones(player)) {
+      turn = turn == Player.P1 ? Player.P2 : Player.P1; 
+      return false;
+    }
+    println("MOVING", player, state);
 
     Pot[] currentPots = turn == Player.P1 ? p1Pots : p2Pots;
     int currentStones = currentPots[move].value;
@@ -101,11 +104,14 @@ public class Board { //<>// //<>//
     Player enemy = player == Player.P1 ? Player.P2 : Player.P1;
     if (hasNoStones(enemy)) {
       if (hasNoStones(player)) {
-        state = calculateWin();
+        print("Both have no stones");
+        state = calculateWin(); // update state
       } else {
+        print("Only enemy has no stones");
         turn = player;
       }
     }
+    println("MOVING END", player, state);
     return true;
   }
 

@@ -23,8 +23,10 @@ public class Game {
     while (state == State.PLAYING && board.turn == Player.P2) {
         int move = ai.getMove(board, Player.P2);
         board.move(Player.P2, move);
+        println("MOVE ATTEMPTED: " + move);
     }
-    println(state);
+    println("AI MOVE END, state = " + board.getState() + ", move = " + board.turn + "\n");
+    
   }
   
   public void clicked(float x, float y) {
