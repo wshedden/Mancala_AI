@@ -13,7 +13,7 @@ public class Board { //<>//
   private Pot[] p1Pots = new Pot[7];
   private Pot[] p2Pots = new Pot[7];
   private Player turn = Player.P1;
-
+  private int prevMove = -1;
   public Board() {
     potSetup();
   }
@@ -48,6 +48,17 @@ public class Board { //<>//
       p2Pots[i].display();
     }
     //println(turn, state);
+  }
+  
+  public ArrayList<Integer> getMoves() {
+      ArrayList<Integer> l = new ArrayList<Integer>();
+      Pot[] currentPots = turn == Player.P1 ? p1Pots : p2Pots;
+      for(int i = 0; i < 6; i++) {
+          if(currentPots[i].value > 0) {
+             l.add(i); 
+          }
+      }
+      return l;
   }
 
   public boolean move(Player player, int move) {
@@ -112,6 +123,7 @@ public class Board { //<>//
       }
     }
     println("MOVING END", player, state);
+    prevMove = move;
     return true;
   }
 
@@ -151,6 +163,31 @@ public class Board { //<>//
 
   public State getState() {
     return state;
+  }
+  
+  public int getPrevMove() {
+     return prevMove; 
+  }
+  
+  public Board copy() {
+      Board board = new Board();
+      board.p1Pots = p1Pots;
+      board.p2Pots = p2Pots;
+      board.turn = turn;
+      board.state = state;
+      board.xSpace = xSpace;
+      board.ySpace = ySpace;
+      board.diameter = diameter;
+      board.x = x;
+      board.y = y;
+      return board;
+  }
+  
+  public int getScoreAdvantage(Player player) {
+     if(player == Player.P1) {
+        return p1Pots[6].value - p2Pots[6].value; 
+     }
+     return p2Pots[6].value - p1Pots[6].value; 
   }
 }
 

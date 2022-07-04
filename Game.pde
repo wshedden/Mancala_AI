@@ -21,7 +21,7 @@ public class Game {
   private void aiMove() {
     State state = board.getState();
     while (state == State.PLAYING && board.turn == Player.P2) {
-        int move = ai.getMove(board, Player.P2);
+        int move = ai.getMove(board, Player.P2, 10);
         board.move(Player.P2, move);
         println("MOVE ATTEMPTED: " + move);
     }
